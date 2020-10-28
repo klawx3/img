@@ -1,5 +1,4 @@
 #!/bin/bash
-# https://github.com/Ceryn/img
 clientid="a6ad9d354cbac2f"
 img_dir="/tmp/img_upload.png"
 scrot "$img_dir" --line style=solid,width=1,color="red" --select -f -z
