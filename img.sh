@@ -1,6 +1,6 @@
 #!/bin/bash
 # https://github.com/Ceryn/img
-clientid="a6ad9d354cbac2"
+clientid="a6ad9d354cbac2f"
 img_dir="/tmp/img_upload.png"
 scrot "$img_dir" --line style=solid,width=1,color="red" --select -f -z
 res=$(curl -s --location --request POST "https://api.imgur.com/3/image" --header "Authorization: Client-ID $clientid" -F "image=@$img_dir")
