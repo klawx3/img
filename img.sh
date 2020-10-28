@@ -1,12 +1,8 @@
 #!/bin/bash
 # https://github.com/Ceryn/img
-# Call with '-s' to target only a selection of the screen.
-
-clientid='3e7a4deb7ac67da'
-img=$(mktemp '/tmp/img-XXXXXX.png')
-
-scrot -z "$@" $img >/dev/null 2>&1 || exit
-res=$(curl -sH "Authorization: Client-ID $clientid" -F "image=@$img" "https://api.imgur.com/3/upload")
-
+clientid="a6ad9d354cbac2"
+img_dir="/tmp/img_upload.png"
+scrot "$img_dir" --line style=solid,width=1,color="red" --select -f -z
+res=$(curl -s --location --request POST "https://api.imgur.com/3/image" --header "Authorization: Client-ID $clientid" -F "image=@$img_dir")
 echo $res | grep -qo '"status":200' && link=$(echo $res | sed -e 's/.*"link":"\([^"]*\).*/\1/' -e 's/\\//g')
-test -n "$link" && (printf $link | xclip; printf "\a" && rm "$img") || echo "$res" > "$img.error"
+test -n "$link" && (echo $link | xclip -selection clipboard; rm "$img_dir"; notify-send "copy to clippboard: $link") || notify-send -u critical "error uploading: $res" ; rm "$img_dir"
